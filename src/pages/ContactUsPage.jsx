@@ -1,4 +1,4 @@
-import withLayout from "components/withLayout";
+import withLayout from "Utils/withLayout";
 import React from "react";
 
 const ContactUsPage = () => {

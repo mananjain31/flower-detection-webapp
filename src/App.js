@@ -1,5 +1,5 @@
-import ContactUsPage from "pages/ContactUsPage";
-import LandingPage from "pages/LandingPage";
+import ContactUsPage from "Pages/ContactUsPage";
+import LandingPage from "Pages/LandingPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
