@@ -2,12 +2,20 @@ import React from "react";
 import upload from "Assets/icons/upload.svg";
 import camera from "Assets/icons/camera.svg";
 import { postApi } from "Api/Apis";
+import UploadedImage from "./UploadedImage";
+import CaptureImageModal from "./CaptureImageModal";
 
 const UploadFormSection = () => {
   const inputRef = React.useRef(null);
   const dropzoneRef = React.useRef(null);
   const [imageData, setImageData] = React.useState(null);
   const [imageName, setImageName] = React.useState(null);
+  const [camOpen, setCamOpen] = React.useState(false);
+
+  const removeImage = () => {
+    setImageData(null);
+    setImageName(null);
+  };
 
   const openFilepicker = () => {
     inputRef.current.click();
@@ -54,7 +62,6 @@ const UploadFormSection = () => {
         <h3 className="text-md sm:text-2xl mt-4">
           Please take picture of flower you want to detect
         </h3>
-
         <div
           type="button"
           ref={dropzoneRef}
@@ -67,15 +74,12 @@ const UploadFormSection = () => {
             >
               Upload File
             </button>
-            {imageName ? (
-              <div className="p-4 flex flex-col justify-center items-center gap-4 ">
-                {imageName}
-                <img
-                  src={imageData}
-                  alt="your uploaded plant"
-                  className="h-64"
-                />
-              </div>
+            {imageData ? (
+              <UploadedImage
+                imageName={imageName}
+                imageData={imageData}
+                removeImage={removeImage}
+              />
             ) : (
               <>
                 <div className="p-8 flex justify-around items-center gap-4">
@@ -86,7 +90,10 @@ const UploadFormSection = () => {
                     <img src={upload} alt="upload" />
                   </div>
                   Or
-                  <div className="w-20 aspect-square text-green-secondary">
+                  <div
+                    className="w-20 aspect-square text-green-secondary cursor-pointer"
+                    onClick={() => setCamOpen(true)}
+                  >
                     <img src={camera} alt="capture" width="100%" />
                   </div>
                 </div>
@@ -95,14 +102,12 @@ const UploadFormSection = () => {
             )}
           </div>
         </div>
-
         <button
           className="py-2 px-20 text-white bg-black mt-6 disabled:bg-black-secondary  disabled:cursor-not-allowed"
           disabled={!imageData}
         >
           Go
         </button>
-
         <input
           type="file"
           accept="image/*"
@@ -110,6 +115,11 @@ const UploadFormSection = () => {
           ref={inputRef}
           name="image"
           onChange={(e) => convertAndSetImgData(e.target.files[0])}
+        />
+        <CaptureImageModal
+          open={camOpen}
+          onClose={() => setCamOpen(false)}
+          setImageData={setImageData}
         />
       </form>
     </section>
