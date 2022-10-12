@@ -54,32 +54,55 @@ const UploadFormSection = () => {
         <h3 className="text-md sm:text-2xl mt-4">
           Please take picture of flower you want to detect
         </h3>
-        <button
-          onClick={openFilepicker}
+
+        <div
           type="button"
           ref={dropzoneRef}
           className="grid place-items-center mt-8 mx-auto outline-none transition-all duration-300"
         >
           <div className="border-green-secondary  border border-1 pb-6">
-            <button className="bg-green-secondary text-white w-full">
+            <button
+              className="bg-green-secondary text-white w-full"
+              onClick={openFilepicker}
+            >
               Upload File
             </button>
-            <div className="p-8 flex justify-around items-center gap-4">
-              <div className="w-20 aspect-square text-green-secondary">
-                <img src={upload} alt="upload" />
+            {imageName ? (
+              <div className="p-4 flex flex-col justify-center items-center gap-4 ">
+                {imageName}
+                <img
+                  src={imageData}
+                  alt="your uploaded plant"
+                  className="h-64"
+                />
               </div>
-              Or
-              <div className="w-20 aspect-square text-green-secondary">
-                <img src={camera} alt="capture" width="100%" />
-              </div>
-            </div>
-            Drag here or <span>Browse</span>
+            ) : (
+              <>
+                <div className="p-8 flex justify-around items-center gap-4">
+                  <div
+                    className="w-20 aspect-square text-green-secondary cursor-pointer"
+                    onClick={openFilepicker}
+                  >
+                    <img src={upload} alt="upload" />
+                  </div>
+                  Or
+                  <div className="w-20 aspect-square text-green-secondary">
+                    <img src={camera} alt="capture" width="100%" />
+                  </div>
+                </div>
+                Drag here or <span>Browse</span>
+              </>
+            )}
           </div>
-        </button>
-        <button className="py-2 px-20 text-white bg-black-secondary mt-6">
+        </div>
+
+        <button
+          className="py-2 px-20 text-white bg-black mt-6 disabled:bg-black-secondary  disabled:cursor-not-allowed"
+          disabled={!imageData}
+        >
           Go
         </button>
-        <div className="p-1">{imageName}</div>
+
         <input
           type="file"
           accept="image/*"
