@@ -18,7 +18,8 @@ const Header = () => {
           <h2 className="text-3xl sm:text-2xl font-extralight">
             -Plantation Guide
           </h2>
-          <Nav />
+          {/* under development */}
+          {/* <Nav /> */}
         </div>
       </div>
       <div className="w-40 hidden sm:block"></div>
