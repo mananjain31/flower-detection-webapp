@@ -22,5 +22,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+<<<<<<< HEAD
 #Environment
 /FDWEnv
+=======
+/venv
+>>>>>>> 03b1010c2f3ee04ff8ec082760e09ea1a1ba5632
