@@ -20,8 +20,10 @@ const CaptureImageModal = ({ open, onClose, setImageData }) => {
 
   return (
     <Modal open={open} onClose={onClose} heading="Capture Plant image">
-      <div className="flex flex-col gap-4">
-        <Webcam ref={camRef} />
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-min">
+          <Webcam ref={camRef} />
+        </div>        
         <button
           ref={captureBtnRef}
           className="rounded-xl p-2 border-black border flex gap-2 items-center justify-center bg-green-200 hover:bg-green-300 outline-none focus:bg-green-300"
