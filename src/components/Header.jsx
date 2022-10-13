@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "Assets/icons/logo.png";
 import Nav from "./Nav";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -10,7 +11,9 @@ const Header = () => {
       px-6 py-4
     `}
     >
-      <img src={logo} alt="logo" className="w-40 h-40 sm:flex hidden" />
+      <Link to="/">
+        <img src={logo} alt="logo" className="w-20 h-20 md:w-40 md:h-40 flex" />
+      </Link>
 
       <div className="flex-1 flex sm:block">
         <div className="text-green-primary text-center flex flex-col gap-1 sm:gap-4">

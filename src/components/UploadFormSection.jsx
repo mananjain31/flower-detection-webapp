@@ -5,11 +5,15 @@ import { postApi } from "Api/Apis";
 import UploadedImage from "./UploadedImage";
 import CaptureImageModal from "./CaptureImageModal";
 
-const UploadFormSection = () => {
+const UploadFormSection = ({
+  imageData,
+  setImageData,
+  imageName,
+  setImageName,
+  openResult,
+}) => {
   const inputRef = React.useRef(null);
   const dropzoneRef = React.useRef(null);
-  const [imageData, setImageData] = React.useState(null);
-  const [imageName, setImageName] = React.useState(null);
   const [camOpen, setCamOpen] = React.useState(false);
 
   const removeImage = () => {
@@ -37,15 +41,12 @@ const UploadFormSection = () => {
     const { current } = dropzoneRef;
     current.addEventListener("dragover", (e) => {
       e.preventDefault();
-      current.classList.add("bg-gray-300");
     });
     current.addEventListener("dragleave", (e) => {
       e.preventDefault();
-      current.classList.remove("bg-gray-300");
     });
     current.addEventListener("drop", (e) => {
       e.preventDefault();
-      current.classList.remove("bg-gray-300");
       convertAndSetImgData(e.dataTransfer.files[0]);
     });
     return () => {
@@ -56,7 +57,7 @@ const UploadFormSection = () => {
   }, []);
 
   return (
-    <section className="min-h-screen bg-header grid place-items-center text-center">
+    <section className="min-h-screen bg-gray-700 text-slate-200 grid place-items-center text-center">
       <form onSubmit={handleSubmit}>
         <h2 className="text-3xl sm:text-6xl">Upload/Capture</h2>
         <h3 className="text-md sm:text-2xl mt-4">
@@ -67,9 +68,9 @@ const UploadFormSection = () => {
           ref={dropzoneRef}
           className="grid place-items-center mt-8 mx-auto outline-none transition-all duration-300"
         >
-          <div className="border-green-secondary  border border-1 pb-6">
+          <div className="border-green-300  border border-1 pb-6">
             <button
-              className="bg-green-secondary text-white w-full"
+              className="bg-green-300 text-gray-900 w-full"
               onClick={openFilepicker}
             >
               Upload File
@@ -103,7 +104,7 @@ const UploadFormSection = () => {
           </div>
         </div>
         <button
-          className="py-2 px-20 text-white bg-black mt-6 disabled:bg-black-secondary  disabled:cursor-not-allowed"
+          className="py-2 px-20 text-slate-800  bg-slate-100 hover:bg-white mt-6 disabled:bg-slate-300  disabled:cursor-not-allowed"
           disabled={!imageData}
         >
           Go
@@ -116,12 +117,12 @@ const UploadFormSection = () => {
           name="image"
           onChange={(e) => convertAndSetImgData(e.target.files[0])}
         />
-        <CaptureImageModal
-          open={camOpen}
-          onClose={() => setCamOpen(false)}
-          setImageData={setImageData}
-        />
       </form>
+      <CaptureImageModal
+        open={camOpen}
+        onClose={() => setCamOpen(false)}
+        setImageData={setImageData}
+      />
     </section>
   );
 };

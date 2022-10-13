@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "./Modal";
 import Webcam from "react-webcam";
-import camera from "Assets/icons/camera.svg";
+import cameraBlack from "Assets/icons/cameraBlack.svg";
 
 const CaptureImageModal = ({ open, onClose, setImageData }) => {
   const captureBtnRef = React.useRef(null);
@@ -23,13 +23,15 @@ const CaptureImageModal = ({ open, onClose, setImageData }) => {
       <div className="flex flex-col items-center gap-4">
         <div className="h-min">
           <Webcam ref={camRef} />
-        </div>        
+        </div>
         <button
           ref={captureBtnRef}
-          className="rounded-xl p-2 border-black border flex gap-2 items-center justify-center bg-green-200 hover:bg-green-300 outline-none focus:bg-green-300"
+          className="rounded-xl p-2 border-black border flex gap-2 items-center justify-center 
+          bg-green-200 hover:bg-green-300 outline-none focus:bg-green-300 text-black"
           onClick={capture}
         >
-          Capture <img src={camera} alt="capture" className="text-blue-500" />
+          Capture{" "}
+          <img src={cameraBlack} alt="capture" className="text-blue-500" />
         </button>
       </div>
     </Modal>

@@ -7,7 +7,7 @@ const UploadedImage = ({ imageName, imageData, removeImage }) => {
         {imageName}
         <img src={imageData} alt="your uploaded plant" className="h-64" />
         <button
-          className="bg-red-300 hover:bg-red-500 w-full text-white py-2"
+          className="bg-red-500 hover:bg-red-400 w-full  py-2"
           onClick={removeImage}
         >
           Remove
