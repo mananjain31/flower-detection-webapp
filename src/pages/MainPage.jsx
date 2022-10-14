@@ -8,7 +8,7 @@ const MainPage = () => {
   const [imageData, setImageData] = React.useState(null);
   const [imageName, setImageName] = React.useState(null);
   const [result, setResult] = React.useState({
-    show: true,
+    show: false,
     inputImage: "https://garden.org/pics/2020-01-01/csandt/b0fbde-500.jpg",
     data: DUMMY_RESULT_DATA,
   });

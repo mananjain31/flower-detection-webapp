@@ -27,8 +27,14 @@ const UploadFormSection = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ image: imageData });
-    postApi("/upload", { image: imageData });
+    if (!imageData) return;
+    let image = imageData.replace(/^data:image\/[a-z]+;base64,/, "");
+    console.log({ image });
+    if (imageData)
+      postApi("/upload", { image }).then((data) => {
+        console.log(data);
+        openResult(imageData, data);
+      });
   };
 
   const convertAndSetImgData = (file) => {
