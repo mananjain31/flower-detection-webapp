@@ -33,6 +33,8 @@ const UploadFormSection = ({
     if (imageData)
       postApi("/upload", { image }).then((data) => {
         console.log(data);
+        if (!data.success)
+          return alert("Unable to fetch data due to current model limitations");
         openResult(imageData, data);
       });
   };
