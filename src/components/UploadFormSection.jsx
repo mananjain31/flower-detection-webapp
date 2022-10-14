@@ -27,6 +27,7 @@ const UploadFormSection = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log({ image: imageData });
     postApi("/upload", { image: imageData });
   };
 
