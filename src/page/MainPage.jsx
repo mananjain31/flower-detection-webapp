@@ -12,7 +12,7 @@ const MainPage = () => {
     show: false,
     inputImage: "https://garden.org/pics/2020-01-01/csandt/b0fbde-500.jpg",
     // data: DUMMY_RESULT_DATA,
-    data: { name: "tulip", Accuracy: "90" },
+    data: { name: "Blue Daisy (Felicia amelloides)", Accuracy: "90" },
   });
 
   const openResult = (inputImage, data) => {
