@@ -1,3 +1,4 @@
+import sys
 from django.http import JsonResponse
 from django.shortcuts import render
 import json
@@ -7,6 +8,7 @@ import io
 from PIL import Image
 from skimage import transform
 import numpy as np
+import tensorflow as tf
 
 # Create your views here.
 
@@ -15,28 +17,49 @@ def test(request):
     if request.method == 'GET':
         print('This is a Test')
 
+
 @csrf_exempt
 def imgPost(request):
     if request.method == 'POST':
         jsonData = json.loads(request.body)
         # ImgFinal = ImgBin2Numpy(jsonData['Image'])
         # print(ImgFinal)
-        base64String = jsonData['Image']
+        base64String = jsonData['image']
         NumpyImage = ImgBin2Numpy(base64String)
-        return JsonResponse({ 
-          "success":True,
-          "Image":str(NumpyImage)
-         })
+        category, accuracy = Recognize(NumpyImage)
+        return JsonResponse({
+            "success": True,
+            "name": category,
+            "Accuracy": accuracy
+        })
 
 
 def ImgBin2Numpy(ImageBase64):
-    Img = Image.open(io.BytesIO(base64.b64decode(ImageBase64)))
-    np_image = Img
+    base64Bytes = bytes(ImageBase64, encoding='utf-8')
+    np_image = Image.open(io.BytesIO(base64.b64decode(base64Bytes)))
     np_image = np.array(np_image).astype('float32')/224
     np_image = transform.resize(np_image, (224, 224, 3))
     np_image = np.expand_dims(np_image, axis=0)
     return np_image
 
-        
 
-    
+def Recognize(NumpyImage):
+    model = tf.keras.models.load_model('Model\mymodel.h5')
+    predictions = model.predict(NumpyImage)
+    print(predictions)
+
+    maxAcc = float(-(sys.maxsize - 1))
+    pred = 'word'
+
+    categories = ['Apple', 'Dianthus', 'Cabbage', 'Hibiscus', 'Rose']
+
+    i = 0
+    for label in categories:
+        if (predictions[0][i] > maxAcc):
+            print(label)
+            pred = label
+            maxAcc = predictions[0][i]
+        i = i + 1
+    print("\t%s ==> %.2f Accuracy" % (pred, 100*maxAcc))
+    print('Hello')
+    return pred, "{:.2f}".format(100*maxAcc)
