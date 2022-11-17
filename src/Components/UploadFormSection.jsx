@@ -31,12 +31,19 @@ const UploadFormSection = ({
     let image = imageData.replace(/^data:image\/[a-z]+;base64,/, "");
     console.log({ image });
     if (imageData)
-      postApi("/upload", { image }).then((data) => {
-        console.log(data);
-        if (!data.success)
-          return alert("Unable to fetch data due to current model limitations");
-        openResult(imageData, data);
-      });
+      postApi("imgPost/", { image })
+        .then((data) => {
+          console.log(data);
+          if (!data || !data.success)
+            return alert(
+              "Unable to fetch data due to current model limitations"
+            );
+          openResult(imageData, data);
+        })
+        .catch((err) => {
+          alert(err.message);
+          console.error(err);
+        });
   };
 
   const convertAndSetImgData = (file) => {

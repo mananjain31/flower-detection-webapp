@@ -44,7 +44,7 @@ def ImgBin2Numpy(ImageBase64):
 
 
 def Recognize(NumpyImage):
-    model = tf.keras.models.load_model('Model\mymodel.h5')
+    model = tf.keras.models.load_model('Model/mymodel.h5')
     predictions = model.predict(NumpyImage)
     print(predictions)
 
