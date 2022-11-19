@@ -1,18 +1,19 @@
 import React from "react";
-import ResultSection from "Components/ResultSection";
 import UploadFormSection from "Components/UploadFormSection";
 import withLayout from "Utils/withLayout";
-import { DUMMY_RESULT_DATA } from "Constants/dummyData";
 import MiniResultSection from "Components/MiniResultSection";
+import ImageGallery from "Components/ImageGallery";
 
 const MainPage = () => {
   const [imageData, setImageData] = React.useState(null);
   const [imageName, setImageName] = React.useState(null);
   const [result, setResult] = React.useState({
     show: false,
-    inputImage: "https://garden.org/pics/2020-01-01/csandt/b0fbde-500.jpg",
+    // inputImage: "https://garden.org/pics/2020-01-01/csandt/b0fbde-500.jpg",
+    inputImage: null,
     // data: DUMMY_RESULT_DATA,
-    data: { name: "Blue Daisy (Felicia amelloides)", Accuracy: "90" },
+    // data: { name: "Blue Daisy (Felicia amelloides)", Accuracy: "90" },
+    data: null,
   });
 
   const openResult = (inputImage, data) => {
@@ -28,8 +29,12 @@ const MainPage = () => {
         setImageName={setImageName}
         openResult={openResult}
       />
-      {/* {result.show && <ResultSection result={result} />} */}
-      {result.show && <MiniResultSection result={result} />}
+      {result.show && (
+        <>
+          <MiniResultSection result={result} />
+          <ImageGallery name={result?.data?.name} />
+        </>
+      )}
     </div>
   );
 };
