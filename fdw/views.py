@@ -27,7 +27,7 @@ def imgPost(request):
         # print(ImgFinal)
         base64String = jsonData['image']
         NumpyImage = ImgBin2Numpy(base64String)
-        accuracy, info = Recognize(NumpyImage)
+        info, accuracy,  = Recognize(NumpyImage)
         return JsonResponse({
             "success": True,
             "accuracy": json.dumps(accuracy),
