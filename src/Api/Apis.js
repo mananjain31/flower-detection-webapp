@@ -17,7 +17,7 @@ export const postApi = (url, data) => {
     },
     body: JSON.stringify(data),
   })
-    .then((response) => response.json())
+    .then((response) => response.text())
     .catch((error) => {
       console.error(error);
     });

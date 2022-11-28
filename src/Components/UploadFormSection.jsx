@@ -32,7 +32,9 @@ const UploadFormSection = ({
     console.log({ image });
     if (imageData)
       postApi("imgPost/", { image })
-        .then((data) => {
+        .then((d) => {
+          // replace all NaN from string d
+          const data = JSON.parse(d.replace(/NaN/g, "null"));
           console.log(data);
           if (!data || !data.success)
             return alert(

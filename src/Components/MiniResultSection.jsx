@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import DetailsList from "./DetailsList";
 
 const MiniResultSection = ({ result }) => {
-  const data = result.data;
-  const sectionRef = React.useRef(null);
+  const [data, setData] = useState({});
+  const sectionRef = useRef(null);
   useEffect(() => {
+    if (!result || !result.data) return;
+    setData({ accuracy: result.data.accuracy, ...result.data.info });
     sectionRef.current.scrollIntoView({ behavior: "smooth" });
   }, [result]);
   return (
