@@ -9,6 +9,7 @@ from PIL import Image
 from skimage import transform
 import numpy as np
 import tensorflow as tf
+import pandas as pd
 
 # Create your views here.
 
@@ -26,11 +27,11 @@ def imgPost(request):
         # print(ImgFinal)
         base64String = jsonData['image']
         NumpyImage = ImgBin2Numpy(base64String)
-        category, accuracy = Recognize(NumpyImage)
+        accuracy, info = Recognize(NumpyImage)
         return JsonResponse({
             "success": True,
-            "name": category,
-            "Accuracy": accuracy
+            "accuracy": json.dumps(accuracy),
+            "info": info
         })
 
 
@@ -51,42 +52,10 @@ def Recognize(NumpyImage):
     maxAcc = float(-(sys.maxsize - 1))
     pred = 'word'
 
-    # categories = ['Apple', 'Dianthus', 'Cabbage', 'Hibiscus', 'Rose']
-    categories = ["Apple (Malus pumila 'Braeburn')",
-                  "Butterhead Lettuce (Lactuca sativa 'Tom Thumb')",
-                  "Carrot (Daucus carota subsp. sativus 'Ultimate Hybrid')",
-                  "Cauliflower (Brassica oleracea var. botrytis 'Steady')",
-                  "Chinese Pear (Pyrus pyrifolia 'Shinseiki')",
-                  "Common Fig (Ficus carica 'Violette de Bordeaux')",
-                  'Coneflower (Echinacea Big Sky Sundown)',
-                  'Corn (Zea mays subsp. mays)',
-                  "Cucumber (Cucumis sativus 'Early Cluster')",
-                  "Daylily (Hemerocallis 'Quoting Hemingway')",
-                  'Dianthus',
-                  "Eggplant (Solanum melongena 'Bride')",
-                  "Greigii Tulip (Tulipa 'Fire of Love')",
-                  'Hibiscus',
-                  'Hostas (Hosta)',
-                  "Hot Pepper (Capsicum annuum 'Petit Marseillais')",
-                  "Italian Parsley (Petroselinum crispum 'Italian Flat Leaf')",
-                  "Lily (Lilium 'Fusion')",
-                  "Melon (Cucumis melo 'Kajari')",
-                  'Mints (Mentha)',
-                  "Nectarine (Prunus persica 'Arctic Glo')",
-                  "Onion (Allium cepa 'Walla Walla Sweet')",
-                  'Potatoes (Solanum tuberosum)',
-                  "Pumpkin (Cucurbita moschata 'Musquee de Provence')",
-                  "Radish (Raphanus sativus 'Early Scarlet Globe')",
-                  "Rose (Rosa 'Sexy Rexy')",
-                  "Snap Bean (String (Phaseolus vulgaris 'Wren's Egg')",
-                  "Softneck Garlic (Allium sativum 'Inchelium Red')",
-                  "Spinach (Spinacia oleracea 'Ashley')",
-                  "Strawberry (Fragaria x ananassa 'Chandler')",
-                  'Sweet Basil (Ocimum basilicum)',
-                  "Sweet Cherry (Prunus avium 'Black Tatarian')",
-                  'Sweet Potatoes (Ipomoea batatas)',
-                  "Tomato (Solanum lycopersicum 'Pink Delicious')"]
-    print(len(categories))
+    df = pd.read_csv(
+        "C:/Programing/flower-detection-webapp/csv/Final_Flower_Table.csv")
+    categories = df["Flower name"].to_list()
+    categories.sort()
     i = 0
     for label in categories:
         if (predictions[0][i] > maxAcc):
@@ -94,5 +63,7 @@ def Recognize(NumpyImage):
             pred = label
             maxAcc = predictions[0][i]
         i = i + 1
-    print("\t%s ==> %.2f Accuracy" % (pred, 100*maxAcc))
-    return pred, "{:.2f}".format(100*maxAcc)
+    # print("\t%s ==> %.2f Accuracy" % (pred, 100*maxAcc))
+    info = df[df['Flower name'] == pred]
+    info = info.squeeze().to_dict()
+    return info, "{:.2f}".format(100*maxAcc)
