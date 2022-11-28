@@ -32,7 +32,7 @@ const MainPage = () => {
       {result.show && (
         <>
           <MiniResultSection result={result} />
-          <ImageGallery name={result?.data?.name} />
+          {/* <ImageGallery name={result?.data?.name} /> */}
         </>
       )}
     </div>
